@@ -86,6 +86,12 @@ module Rpush
           notification = Rpush::Client::Redis::Gcm::Notification.new
           create_gcm_like_notification(notification, attrs, data, registration_ids, deliver_after, app)
         end
+		
+		def create_fcm_notification(attrs, data, registration_ids, deliver_after, app)
+          notification = Rpush::Client::Redis::Fcm::Notification.new
+          create_fcm_like_notification(notification, attrs, data, registration_ids, deliver_after, app)
+        end
+
 
         def create_adm_notification(attrs, data, registration_ids, deliver_after, app)
           notification = Rpush::Client::Redis::Adm::Notification.new
@@ -130,6 +136,17 @@ module Rpush
           notification.save!
           notification
         end
+		
+        def create_fcm_like_notification(notification, attrs, data, registration_ids, deliver_after, app) # rubocop:disable ParameterLists
+          notification.assign_attributes(attrs)
+          notification.data = data
+          notification.registration_ids = registration_ids
+          notification.deliver_after = deliver_after
+          notification.app = app
+          notification.save!
+          notification
+        end
+
 
         def retryable_notification_ids
           retryable_ns = Rpush::Client::Redis::Notification.absolute_retryable_namespace

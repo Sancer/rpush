@@ -30,6 +30,7 @@ class RpushMigrationGenerator < Rails::Generators::Base
       add_rpush_migration('add_app_to_rapns')
       add_rpush_migration('create_rapns_apps')
       add_rpush_migration('add_gcm')
+	  add_rpush_migration('add_fcm')
       add_rpush_migration('add_wpns')
       add_rpush_migration('add_adm')
       add_rpush_migration('rename_rapns_to_rpush')

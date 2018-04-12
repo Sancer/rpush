@@ -142,6 +142,11 @@ module Rpush
           notification = Rpush::Client::ActiveRecord::Gcm::Notification.new
           create_gcm_like_notification(notification, attrs, data, registration_ids, deliver_after, app)
         end
+		
+		def create_fcm_notification(attrs, data, registration_ids, deliver_after, app)
+          notification = Rpush::Client::ActiveRecord::Fcm::Notification.new
+          create_fcm_like_notification(notification, attrs, data, registration_ids, deliver_after, app)
+        end
 
         def create_adm_notification(attrs, data, registration_ids, deliver_after, app)
           notification = Rpush::Client::ActiveRecord::Adm::Notification.new
@@ -188,6 +193,20 @@ module Rpush
           end
         end
 
+		
+        def create_fcm_like_notification(notification, attrs, data, registration_ids, deliver_after, app) # rubocop:disable ParameterLists
+          with_database_reconnect_and_retry do
+            notification.assign_attributes(attrs)
+            notification.data = data
+            notification.registration_ids = registration_ids
+            notification.deliver_after = deliver_after
+            notification.app = app
+            notification.save!
+            notification
+          end
+        end
+		
+		
         def ready_for_delivery
           relation = Rpush::Client::ActiveRecord::Notification.where('processing = ? AND delivered = ? AND failed = ? AND (deliver_after IS NULL OR deliver_after < ?)', false, false, false, Time.now)
           @using_oracle ? relation : relation.order('created_at ASC')

@@ -100,6 +100,11 @@ module Rpush
           notification = Rpush::Client::Mongoid::Gcm::Notification.new
           create_gcm_like_notification(notification, attrs, data, registration_ids, deliver_after, app)
         end
+		
+		def create_fcm_notification(attrs, data, registration_ids, deliver_after, app)
+          notification = Rpush::Client::Mongoid::Fcm::Notification.new
+          create_fcm_like_notification(notification, attrs, data, registration_ids, deliver_after, app)
+        end
 
         def create_adm_notification(attrs, data, registration_ids, deliver_after, app)
           notification = Rpush::Client::Mongoid::Adm::Notification.new
@@ -149,6 +154,18 @@ module Rpush
           notification.save!
           notification
         end
+		
+		
+		def create_fcm_like_notification(notification, attrs, data, registration_ids, deliver_after, app) # rubocop:disable ParameterLists
+          notification.assign_attributes(attrs)
+          notification.data = data
+          notification.registration_ids = registration_ids
+          notification.deliver_after = deliver_after
+          notification.app = app
+          notification.save!
+          notification
+        end
+		
       end
     end
   end

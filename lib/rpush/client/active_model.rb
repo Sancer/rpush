@@ -17,6 +17,12 @@ require 'rpush/client/active_model/gcm/expiry_collapse_key_mutual_inclusion_vali
 require 'rpush/client/active_model/gcm/app'
 require 'rpush/client/active_model/gcm/notification'
 
+
+require 'rpush/client/active_model/fcm/expiry_collapse_key_mutual_inclusion_validator'
+require 'rpush/client/active_model/fcm/app'
+require 'rpush/client/active_model/fcm/notification'
+
+
 require 'rpush/client/active_model/wpns/app'
 require 'rpush/client/active_model/wpns/notification'
 

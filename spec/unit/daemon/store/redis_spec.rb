@@ -327,6 +327,43 @@ describe Rpush::Daemon::Store::Redis do
       expect(new_notification.new_record?).to be_falsey
     end
   end
+  
+  
+  
+  
+  describe 'create_fcm_notification' do
+    let(:data) { { data: true } }
+    let(:attributes) { { device_token: 'ab' * 32 } }
+    let(:registration_ids) { %w(123 456) }
+    let(:deliver_after) { time + 10.seconds }
+    let(:args) { [attributes, data, registration_ids, deliver_after, app] }
+
+    it 'sets the given attributes' do
+      new_notification = store.create_fcm_notification(*args)
+      expect(new_notification.device_token).to eq 'ab' * 32
+    end
+
+    it 'sets the given data' do
+      new_notification = store.create_fcm_notification(*args)
+      expect(new_notification.data).to eq(data: true)
+    end
+
+    it 'sets the given registration IDs' do
+      new_notification = store.create_fcm_notification(*args)
+      expect(new_notification.registration_ids).to eq registration_ids
+    end
+
+    it 'sets the deliver_after timestamp' do
+      new_notification = store.create_fcm_notification(*args)
+      expect(new_notification.deliver_after.utc.to_s).to eq deliver_after.to_s
+    end
+
+    it 'saves the new notification' do
+      new_notification = store.create_fcm_notification(*args)
+      expect(new_notification.new_record?).to be_falsey
+    end
+  end
+
 
   describe 'create_adm_notification' do
     let(:data) { { data: true } }

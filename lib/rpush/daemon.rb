@@ -43,6 +43,11 @@ require 'rpush/daemon/apns'
 require 'rpush/daemon/gcm/delivery'
 require 'rpush/daemon/gcm'
 
+
+require 'rpush/daemon/fcm/delivery'
+require 'rpush/daemon/fcm'
+
+
 require 'rpush/daemon/wpns/delivery'
 require 'rpush/daemon/wpns'
 

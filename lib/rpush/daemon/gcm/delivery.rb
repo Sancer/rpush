@@ -1,3 +1,5 @@
+#require 'openssl'
+#OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 module Rpush
   module Daemon
     module Gcm
@@ -145,7 +147,7 @@ module Rpush
           post = Net::HTTP::Post.new(GCM_URI.path, 'Content-Type'  => 'application/json',
                                                    'Authorization' => "key=#{@notification.app.auth_key}")
           post.body = @notification.as_json.to_json
-          @http.request(GCM_URI, post)
+          @http.request(GCM_URI, post)		
         end
       end
 
